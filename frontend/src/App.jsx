@@ -3,6 +3,7 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HotelList from "./components/HotelList.jsx";
 import BookingModal from "./components/BookingModal.jsx";
+import ConfirmModal from "./components/ConfirmModal.jsx";
 
 class App extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class App extends Component {
 
         this.state = {
             booking: false,
+            confirmed: false,
             activeHotel: {
                 id: 0,
                 hotel_name: "",
@@ -17,11 +19,23 @@ class App extends Component {
                 country: "",
                 has_spa: false,
             },
-        }
+            bookingDetails: {
+                id: 0,
+                customer_name: "",
+                email: "",
+                location: null,
+                booked_spa: false,
+                start_date: "",
+                end_date: "",
+            },
+        };
     }
 
-    // Toggle the current booking state to display or remove the booking form modal
+    // Toggle the booking form modal display
     toggleBookingModal = () => this.setState({booking: !this.state.booking});
+
+    // Toggle the confirmation modal display
+    toggleConfirmModal = () => this.setState({confirmed: !this.state.confirmed});
 
     // Open a booking form modal for the selected hotel
     startBooking = (hotel) => {
@@ -29,19 +43,34 @@ class App extends Component {
         this.toggleBookingModal();
     };
 
+    // Display booking confirmation message
+    completeBooking = (details) => {
+        this.toggleBookingModal();
+        this.toggleConfirmModal();
+        this.setState({bookingDetails: details});
+        console.log('confirmed');
+    }
+
     render() {
         return (
             <section>
                 <h1>Book Your Hotel Today</h1>
                 <h2>Available Hotels</h2>
-                <HotelList onSave={this.startBooking}/>
+                <HotelList start={this.startBooking}/>
                 {this.state.booking ?
                     <BookingModal
                         toggle={this.toggleBookingModal}
                         hotel={this.state.activeHotel}
-                        save={this.startBooking}
-                    /> : null
-                }
+                        save={this.completeBooking}
+                    /> :
+                    null}
+                {this.state.confirmed ?
+                    <ConfirmModal
+                        toggle={this.toggleConfirmModal}
+                        bookingDetails={this.state.bookingDetails}
+                        hotel={this.state.activeHotel}
+                    />
+                    : null}
             </section>
         )
     }

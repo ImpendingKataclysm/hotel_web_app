@@ -29,7 +29,7 @@ class HotelList extends Component {
     }
 
     render() {
-        const {onSave} = this.props;
+        const {start} = this.props;
 
         return (
             <ul className={"list-group"}>
@@ -39,7 +39,7 @@ class HotelList extends Component {
                     >
                         <strong>{hotel.hotel_name}</strong>
                         <span>({hotel.city}, {hotel.country})</span>
-                        <Button onClick={() => (onSave(hotel))}>
+                        <Button onClick={() => (start(hotel))}>
                             Book Now
                         </Button>
                     </li>

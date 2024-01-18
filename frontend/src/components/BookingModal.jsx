@@ -20,7 +20,17 @@ class BookingModal extends Component {
                     {hotel.hotel_name}
                 </ModalHeader>
                 <ModalBody>
-                    <Form>
+                    <Form onSubmit={(e) => {
+                        e.preventDefault();
+                        save({
+                            customer_name: e.target.customer_name.value,
+                            customer_email: e.target.customer_email.value,
+                            location: hotel.id,
+                            booked_spa: e.target.book_spa ? e.target.book_spa.checked : false,
+                            start_date: e.target.start_date.value,
+                            end_date: e.target.end_date.value,
+                        });
+                    }}>
                         <FormGroup>
                             <Label for={"customer_name"}>Name:</Label>
                             <Input
