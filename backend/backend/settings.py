@@ -54,6 +54,10 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+]
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
