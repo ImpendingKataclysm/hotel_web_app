@@ -9,6 +9,7 @@ import {
     Input, Button,
 } from "reactstrap";
 
+// Display the booking form for a selected hotel
 class BookingModal extends Component {
     render() {
         const {toggle, hotel, save} = this.props;
