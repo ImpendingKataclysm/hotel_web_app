@@ -5,6 +5,7 @@ import {
     ModalBody,
     ModalFooter,
 } from "reactstrap";
+import BookingPDFLink from "./BookingPDFLink.jsx";
 
 // Display confirmation message after successful booking
 class ConfirmModal extends Component {
@@ -46,6 +47,12 @@ class ConfirmModal extends Component {
                     </ul>
                     <p className={"mx-3"}>Thanks for booking with us!</p>
                 </ModalBody>
+                <ModalFooter>
+                    <BookingPDFLink
+                        bookingDetails={bookingDetails}
+                        hotel={hotel}
+                    />
+                </ModalFooter>
             </Modal>
         );
     }
