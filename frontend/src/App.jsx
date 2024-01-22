@@ -1,9 +1,11 @@
 import { Component } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios";
 import HotelList from "./components/HotelList.jsx";
 import BookingModal from "./components/BookingModal.jsx";
 import ConfirmModal from "./components/ConfirmModal.jsx";
+import {booking_api} from "./api_data.jsx";
 
 class App extends Component {
     constructor(props) {
@@ -31,24 +33,29 @@ class App extends Component {
         };
     }
 
-    // Toggle the booking form modal display
+    // Toggle the booking form display
     toggleBookingModal = () => this.setState({booking: !this.state.booking});
 
-    // Toggle the confirmation modal display
-    toggleConfirmModal = () => this.setState({confirmed: !this.state.confirmed});
+    // Toggle the booking confirmation message display
+    // toggleConfirmModal = () => this.setState({confirmed: !this.state.confirmed});
 
     // Open a booking form modal for the selected hotel
     startBooking = (hotel) => {
-        this.setState({activeHotel: hotel});
-        this.toggleBookingModal();
+        this.setState({
+            activeHotel: hotel,
+            booking: true,
+        });
     };
 
-    // Display booking confirmation message
+    // Save the booking information and display the confirmation message
     completeBooking = (details) => {
-        this.toggleBookingModal();
-        this.toggleConfirmModal();
-        this.setState({bookingDetails: details});
-        console.log('confirmed');
+        axios.post(booking_api, details).then((res) => (
+            this.setState({
+                bookingDetails: res.data,
+                confirmed: true,
+                booking: false,
+            })
+        )).catch((err) => console.log(err));
     }
 
     render() {
@@ -66,7 +73,7 @@ class App extends Component {
                     null}
                 {this.state.confirmed ?
                     <ConfirmModal
-                        toggle={this.toggleConfirmModal}
+                        toggle={() => (this.setState({confirmed: !this.state.confirmed}))}
                         bookingDetails={this.state.bookingDetails}
                         hotel={this.state.activeHotel}
                     />

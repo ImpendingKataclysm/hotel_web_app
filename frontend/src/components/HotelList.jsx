@@ -1,10 +1,7 @@
 import {Component} from "react";
 import axios from "axios";
 import {Button} from "reactstrap";
-
-const api_root = "http://localhost:8000/api/";
-const hotel_api = `${api_root}hotels/`;
-const booking_api = `${api_root}bookings/`;
+import {hotel_api} from "../api_data.jsx";
 
 // Display the list of hotels from the API
 class HotelList extends Component {
