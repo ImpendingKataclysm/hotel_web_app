@@ -32,6 +32,9 @@ const BookingPDF = ({bookingDetails, hotel}) => (
                     Booking Details
                 </Text>
                 <Text style={styles.text}>
+                    Confirmation Number: {bookingDetails.id}
+                </Text>
+                <Text style={styles.text}>
                     Customer Name: {bookingDetails.customer_name}
                 </Text>
                 <Text style={styles.text}>

@@ -20,6 +20,9 @@ class ConfirmModal extends Component {
                 <ModalBody>
                     <ul className={"list-group my-3"}>
                         <li className={"list-group-item"}>
+                            Confirmation Number: {bookingDetails.id}
+                        </li>
+                        <li className={"list-group-item"}>
                             Customer Name: {bookingDetails.customer_name}
                         </li>
                         <li className={"list-group-item"}>

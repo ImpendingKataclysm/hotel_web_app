@@ -33,13 +33,7 @@ class App extends Component {
         };
     }
 
-    // Toggle the booking form display
-    toggleBookingModal = () => this.setState({booking: !this.state.booking});
-
-    // Toggle the booking confirmation message display
-    // toggleConfirmModal = () => this.setState({confirmed: !this.state.confirmed});
-
-    // Open a booking form modal for the selected hotel
+    // Open a booking form for the selected hotel
     startBooking = (hotel) => {
         this.setState({
             activeHotel: hotel,
@@ -64,22 +58,24 @@ class App extends Component {
                 <h1>Book Your Hotel Today</h1>
                 <h2>Available Hotels</h2>
                 <HotelList start={this.startBooking}/>
-                {this.state.booking ?
-                    <BookingModal
-                        toggle={this.toggleBookingModal}
-                        hotel={this.state.activeHotel}
-                        save={this.completeBooking}
-                    /> :
-                    null}
-                {this.state.confirmed ?
-                    <ConfirmModal
-                        toggle={() => (this.setState({confirmed: !this.state.confirmed}))}
-                        bookingDetails={this.state.bookingDetails}
-                        hotel={this.state.activeHotel}
-                    />
-                    : null}
+                { // Display the booking form if the user has chosen to book a hotel.
+                    this.state.booking ?
+                        <BookingModal
+                            toggle={() => (this.setState({booking: !this.state.booking}))}
+                            hotel={this.state.activeHotel}
+                            save={this.completeBooking}
+                        /> : null
+                }
+                { // Display the confirmation message if the user has successfully booked a hotel.
+                    this.state.confirmed ?
+                        <ConfirmModal
+                            toggle={() => (this.setState({confirmed: !this.state.confirmed}))}
+                            bookingDetails={this.state.bookingDetails}
+                            hotel={this.state.activeHotel}
+                        /> : null
+                }
             </section>
-        )
+        );
     }
 }
 
