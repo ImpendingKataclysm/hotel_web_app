@@ -112,7 +112,8 @@ class App extends Component {
                         /> :
                         <CitySelect cities={cities} select={this.getHotels}/>
                 }
-                { // Display the booking form if the user has chosen to book a hotel.
+                {
+                    // Display the booking form if the user has chosen to book a hotel.
                     this.state.booking ?
                         <BookingModal
                             toggle={() => (this.setState({booking: !this.state.booking}))}
@@ -120,7 +121,8 @@ class App extends Component {
                             save={this.completeBooking}
                         /> : null
                 }
-                { // Display the confirmation message if the user has successfully booked a hotel.
+                {
+                    // Display the confirmation message if the user has successfully booked a hotel.
                     this.state.confirmed ?
                         <ConfirmModal
                             toggle={() => (this.setState({confirmed: !this.state.confirmed}))}
