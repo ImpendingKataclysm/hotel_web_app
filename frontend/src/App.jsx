@@ -2,18 +2,22 @@ import { Component } from 'react'
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
+import CitySelect from "./components/CitySelect.jsx";
 import HotelList from "./components/HotelList.jsx";
 import BookingModal from "./components/BookingModal.jsx";
 import ConfirmModal from "./components/ConfirmModal.jsx";
-import {booking_api} from "./api_data.jsx";
+import {booking_api, hotel_api} from "./api_data.jsx";
 
 class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            hotels: [],
             booking: false,
             confirmed: false,
+            citySelected: false,
+            city: "",
             activeHotel: {
                 id: 0,
                 hotel_name: "",
@@ -33,13 +37,51 @@ class App extends Component {
         };
     }
 
+    // Request hotel data from the API and assign it to the current state
+    refreshList  = () => {
+        axios.get(hotel_api).then((res) => (
+            this.setState({hotels: res.data})
+        )).catch((err) => (
+            console.log(err)
+        ));
+    };
+
+    componentDidMount() {
+        this.refreshList();
+        this.getCities();
+    }
+
+    // Get a list of all cities with available hotels
+    getCities = () => {
+        const cities = [];
+        this.state.hotels.map((hotel) => {
+            if (!cities.includes(hotel.city)) cities.push(hotel.city);
+        });
+        return cities;
+    }
+
+    // Show available hotels for a selected city
+    getHotels = (city) => {
+        const availableHotels = [];
+
+        this.state.hotels.map((hotel) => {
+            if (hotel.city === city) availableHotels.push(hotel);
+        });
+
+        this.setState({
+            citySelected: true,
+            city: city,
+            hotels: availableHotels,
+        });
+    };
+
     // Open a booking form for the selected hotel
-    startBooking = (hotel) => {
+    startBooking = (hotel) => (
         this.setState({
             activeHotel: hotel,
             booking: true,
-        });
-    };
+        })
+    );
 
     // Save the booking information and display the confirmation message
     completeBooking = (details) => {
@@ -53,11 +95,23 @@ class App extends Component {
     }
 
     render() {
+        const cities = this.getCities();
+
         return (
             <section>
                 <h1>Book Your Hotel Today</h1>
-                <h2>Available Hotels</h2>
-                <HotelList start={this.startBooking}/>
+                {
+                    /*
+                    If the user has selected a city, display the list of available
+                    hotels, otherwise display the city selection form
+                    * */
+                    this.state.citySelected ?
+                        <HotelList
+                            hotels={this.state.hotels}
+                            start={this.startBooking}
+                        /> :
+                        <CitySelect cities={cities} select={this.getHotels}/>
+                }
                 { // Display the booking form if the user has chosen to book a hotel.
                     this.state.booking ?
                         <BookingModal

@@ -90,8 +90,8 @@ class BookingModal extends Component {
                                 id={"start_date"}
                                 name={"start_date"}
                                 required={true}
-                                value={startDate}
-                                minDate={new Date()}
+                                value={startDate.toString()}
+                                minDate={new Date().toString()}
                                 onChange={(startDate) => this.handleStartDateChange(startDate)}
                             />
                         </FormGroup>
@@ -102,8 +102,8 @@ class BookingModal extends Component {
                                 id={"end_date"}
                                 name={"end_date"}
                                 required={true}
-                                value={endDate}
-                                minDate={startDate}
+                                value={endDate.toString()}
+                                minDate={startDate.toString()}
                                 onChange={(endDate) => this.handleEndDateChange(endDate)}
                             />
                         </FormGroup>
